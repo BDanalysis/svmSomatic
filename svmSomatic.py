@@ -43,12 +43,12 @@ def getFeature():
             info = Inline1.strip().split('\t')
             continue
         if int(info[1])==int(Inline2_list[1]):
-            chrs = info[0]  ###chr
-            pos = info[1]  ###pos
-            ref = info[2]  ###ref
-            depth = float(info[3])  ###depth
-            base = info[4]  ###base
-            quality = info[5]  ###quality
+            chrs = info[0]  
+            pos = info[1]  
+            ref = info[2]  
+            depth = float(info[3])  
+            base = info[4]  
+            quality = info[5]  
             lists = [0.0]
             lists = lists * 12
 
@@ -66,27 +66,27 @@ def getFeature():
                 elif base[i - 1] == "^":
                     continue
                 elif base[i] == '.':
-                    lists[4] = lists[4] + 1  # 匹配到正链的个数
-                    lists[8] = lists[8] + (ord(quality[j]) - 33)  # 正链匹配的质量
+                    lists[4] = lists[4] + 1  
+                    lists[8] = lists[8] + (ord(quality[j]) - 33)  
                     j = j + 1
                 elif base[i] == ',':
-                    lists[5] = lists[5] + 1  # 负链匹配的个数
-                    lists[9] = lists[9] + (ord(quality[j]) - 33)  # 负链匹配的质量
+                    lists[5] = lists[5] + 1  
+                    lists[9] = lists[9] + (ord(quality[j]) - 33)  
                     j = j + 1
                 elif base[i] == 'A' or base[i] == 'C' or base[i] == 'T' or base[i] == 'N' or base[i] == 'G':
-                    lists[6] = lists[6] + 1  # 正链错配的个数
-                    lists[10] = lists[10] + (ord(quality[j]) - 33)  # 正链错配的质量
+                    lists[6] = lists[6] + 1  
+                    lists[10] = lists[10] + (ord(quality[j]) - 33)  
                     j = j + 1
                 elif base[i] == 'a' or base[i] == 'c' or base[i] == 't' or base[i] == 'n' or base[i] == 'g':
-                    lists[7] = lists[7] + 1  # 负链错配的个数
-                    lists[11] = lists[11] + (ord(quality[j]) - 33)  # 负链错配的质量
+                    lists[7] = lists[7] + 1  
+                    lists[11] = lists[11] + (ord(quality[j]) - 33)  
                     j = j + 1
                 else:
                     continue
             if lists[0] != 0:
-                lists[1] = lists[6] + lists[7]  # 正链错配总数＋负链错配总数
-                lists[2] = lists[1] / lists[0]  # AF
-                lists[3] = (lists[8] + lists[9] + lists[10] + lists[11]) / lists[0]  # 平均匹配质量值
+                lists[1] = lists[6] + lists[7]  
+                lists[2] = lists[1] / lists[0]  
+                lists[3] = (lists[8] + lists[9] + lists[10] + lists[11]) / lists[0]  
 
             for i in range(0, 4):
                 Outfile.write(str(lists[i]))
@@ -128,7 +128,7 @@ def feaAddCN(OInfile2):
     file_list = []
     for line2 in infile_2:
         line2 = line2.strip().split('\t')
-        file_list.append(line2)  # 把特征信息存入一个大的列表里
+        file_list.append(line2)  
     for line1 in infile_1:
         if not line1:
             break
@@ -141,7 +141,6 @@ def feaAddCN(OInfile2):
         if len(file_list[i]) < 6:
             file_list[i].append('2')
 
-    # 此时file_list=[]中的顺序是：pos、RD、总的错配数、AF、平均匹配质量、CN(共6列)
     for i in range(len(file_list)):
         strline = '\t'.join(file_list[i])
         outfile.write(strline + '\n')
@@ -154,13 +153,11 @@ def trained_SVM():
     X_Data = []
     Y_Data = []
     pos = []
-    # 读取数据
     data = open("feaCN.txt", 'r')
     for line in data:
         x = []
         linex = line.strip().split('\t')
         pos.append(linex[0])
-        # 加入5个特征信息
         for i in range(1, len(linex)):
             x.append(eval(linex[i]))
         X_Data.append(x)
